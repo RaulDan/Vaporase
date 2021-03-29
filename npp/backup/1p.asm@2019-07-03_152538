@@ -1,0 +1,56 @@
+.386
+.model flat, stdcall
+
+includelib msvcrt.lib
+extern exit: proc
+extern printf : proc
+extern scanf : proc
+
+public start
+	
+.data 
+
+format db "%d" , 0
+text_a db "a = " , 0
+text_b db "b = " , 0
+text_sum db "Suma este : %d" , 0
+a dd ?
+b dd ?
+sum dd ?
+
+.code
+start:
+	;Citire
+
+	push offset text_a
+	call printf
+	add esp , 4
+	
+	push offset a
+	push offset format
+	call scanf
+	add esp , 8
+	
+	push offset text_b
+	call printf
+	add esp , 4
+	
+	push offset b
+	push offset format
+	call scanf
+	add esp , 8
+	
+	;suma + print
+	
+	mov eax , a
+	add eax , b
+	mov sum , eax
+	push eax
+	push offset text_sum
+	call printf
+	add esp , 8
+
+	push 0
+	call exit
+	
+end start
